@@ -1,31 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Job Application:Login</title>
-</head>
-<body>
-    <div class="card">
-        <form action="{{route('auth.login')}}" method="POST">
-            @csrf
-            <dv>
-                <label>Username</label>
-                <input type="text" name="username" placeholder="Username">
-            </dv>
-            <br>
+<h4>Login</h4>
+<div class="login">
+    <form action="{{route('auth.store')}}" method="POST">
+        @csrf
+        <label for='username'>Username</label>
+        <input type="text" name="username" placeholder="Username Credentials"><br>
+        
+        <label for='username'>Password</label>
+        <input type="password" name="password" placeholder="Password Credentials"><br>
             @error('username')
-                <span style="color: red">{{$message}}</span></span>
+                {{$message}}
             @enderror
-            <br>
-            <dv>
-                <label>Password</label>
-                <input type="password" name="password" placeholder="password">
-            </dv>
-            <br>
-          <button type="submit">submit</button>
-        </form>
-    </div>
-</body>
-</html>
+        <br>
+        <button type="submit" name="submit">Sign In</button>
+    </form>
+</div>

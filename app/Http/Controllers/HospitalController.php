@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Patient;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Hospital;
+use App\Models\User;
+use App\Models\Doctor;
 
-use function Laravel\Prompts\password;
-
-class UserController
+class HospitalController
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('users.index');
+        $hospitals = Hospital::all();
+        return view('hospitals.index', compact('hospitals'));
     }
 
     /**
@@ -25,7 +24,8 @@ class UserController
      */
     public function create()
     {
-        return view('users.create');
+        $hospitals = Hospital::all();
+        return view('hospitals.create', compact('hospitals'));
     }
 
     /**
@@ -33,6 +33,7 @@ class UserController
      */
     public function store(Request $request)
     {
+
         $credentials = $request->validate([
             'name' => ['required', 'string'],
             'username' => ['required', 'string'],
@@ -41,11 +42,16 @@ class UserController
             'contact' => [
                 'required',
                 'string'
-            ]
+            ],
+
         ]);
 
-        $role = 1;
-
+        $role = 2;
+        $hospital = Hospital::create(
+            [
+                'name' => $request->name,
+            ]
+        );
         $user = User::create([
             'name' => $credentials['name'],
             'username' => $credentials['username'],
@@ -55,15 +61,14 @@ class UserController
             'role_id' => $role
         ]);
 
-        Patient::create(
+        Doctor::create(
             [
+                'hospital_id' => $hospital->id,
                 'user_id' => $user->id
             ]
         );
-
-
-        $user->save();
-        return redirect()->route('auth.index')->with('success', 'User Account Created');
+        $hospital->save();
+        return redirect()->route('admin.index')->with('status', 'Hospital added');
     }
 
     /**
@@ -71,8 +76,7 @@ class UserController
      */
     public function show(string $id)
     {
-        $user = User::findOrFail($id);
-        return view('users.show');
+        //
     }
 
     /**

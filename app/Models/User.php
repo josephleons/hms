@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory,HasApiTokens, Notifiable;
+    use HasFactory, HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'username',
         'email',
+        'contact',
         'password',
         'role_id'
     ];
@@ -49,25 +50,32 @@ class User extends Authenticatable
         ];
     }
 
+    public function doctor (){
+        return $this->hasOne(Doctor::class);
+    }
+    public function patient()
+    {
+        return $this->hasOne(Patient::class);
+    }
 
-    public function role(){
+    public function role()
+    {
         return $this->belongsTo(Role::class);
     }
 
 
-    public function isAdmin(){
-        return $this->role()->where('name','admin')->exists();
+    public function isAdmin()
+    {
+        return $this->role()->where('name', 'admin')->exists();
     }
 
-    public function isEditor(){
-        return $this->role()->where('name','editor')->exists();
+    public function isDoctor()
+    {
+        return $this->role()->where('name', 'doctor')->exists();
     }
 
-    public function isViewer(){
-        return $this->role()->where('name','viewer')->exists();
-    }
-
-    public function application(){
-        return $this->belongsTo(Application::class);
+    public function isPatient()
+    {
+        return $this->role()->where('name', 'patient')->exists();
     }
 }

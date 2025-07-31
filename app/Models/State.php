@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class State extends Model
 {
-    public function jobs()
+
+    public $table = 'state';
+    public function appointment()
     {
-        return $this->hasMany(Job::class);
+        return $this->hasMany(Appointment::class);
     }
 }

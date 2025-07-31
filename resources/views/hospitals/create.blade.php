@@ -1,8 +1,13 @@
-<h4>Register User Account</h4>
-<div class="login">
-    <form action="{{route('users.store')}}" method="POST">
+@extends('layouts.admin')
+@section('content')
+    <h4>Add New Hospital </h4>
+    <form action="{{ route('hospitals.store') }}" method="POST">
         @csrf
-        <label for='name'>name</label>
+
+        <label for='name'>Hospital</label>
+        <input type="text" name="name" placeholder="Hospitals Name"><br>
+
+        <label for='name'>Name</label>
         <input type="text" name="name" placeholder="Username Credentials"><br>
 
         <label for='username'>Username</label>
@@ -18,4 +23,4 @@
         <input type="password" name="password" placeholder="Password Credentials"><br>
         <input type="submit" name="submit">
     </form>
-</div>
+@endsection

@@ -7,8 +7,7 @@
     <title>Hospital management system</title>
 </head>
 <body>
-    @include('navbar.admin-nav')
+    @include('navbar.patient')
     @yield('content')
-    
 </body>
 </html>
